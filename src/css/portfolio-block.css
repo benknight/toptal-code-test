@@ -1,0 +1,92 @@
+@charset "UTF-8";
+/* line 4, ../scss/_forms.scss */
+label { font-weight: bold; }
+
+/* line 8, ../scss/_forms.scss */
+input, textarea, select { font-size: inherit; color: #222; }
+/* line 14, ../scss/_forms.scss */
+:host(.cell) input, :host(.cell) textarea, :host(.cell) select { width: 100%; }
+
+/* line 19, ../scss/_forms.scss */
+button { color: #222; font-size: 13px; }
+
+/* line 24, ../scss/_forms.scss */
+textarea { width: 100%; height: 4.2em; }
+
+/* line 29, ../scss/_forms.scss */
+fieldset { margin: 0 0 12px 0; padding: 0; border: 0; }
+
+/* line 4, ../scss/portfolio-block.scss */
+:host { position: relative; display: block; cursor: default; }
+/* line 9, ../scss/portfolio-block.scss */
+:host, :host * { box-sizing: border-box; -webkit-user-select: none; }
+
+/* line 15, ../scss/portfolio-block.scss */
+:host(:hover):after { display: block; position: absolute; top: 6px; right: 6px; opacity: 0.5; font-size: 13px; transform: scaleX(-1) rotate(-10deg); }
+
+/* line 26, ../scss/portfolio-block.scss */
+:host(.editing) { cursor: auto; }
+/* line 29, ../scss/portfolio-block.scss */
+:host(.editing):after { display: none; }
+
+/* line 34, ../scss/portfolio-block.scss */
+:host(.inline) { display: inline-block; }
+/* line 37, ../scss/portfolio-block.scss */
+:host(.inline):after { right: auto; left: calc(100% + 3px); top: 0; }
+
+/* line 44, ../scss/portfolio-block.scss */
+label { display: block; }
+
+/* line 48, ../scss/portfolio-block.scss */
+h1, p, ul { margin: 0; font-size: inherit; }
+
+/* line 53, ../scss/portfolio-block.scss */
+ul { list-style: none; padding: 0; }
+
+/* line 58, ../scss/portfolio-block.scss */
+img, ::content img { display: block; max-width: 100%; height: auto; }
+
+/* line 65, ../scss/portfolio-block.scss */
+.caption { position: absolute; bottom: 0; left: 0; right: 0; margin: 0; padding: 12px; font-size: 85%; font-weight: bold; background: rgba(0, 0, 0, 0.5); color: white; }
+
+/* line 78, ../scss/portfolio-block.scss */
+.placeholder { text-align: center; opacity: 0.5; }
+
+/* line 83, ../scss/portfolio-block.scss */
+.modal { position: fixed; top: 50%; left: 50%; width: 60%; max-width: 550px; z-index: 100; transform: translate(-50%, -50%); background: white; color: #222; padding: 30px; box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5), 0 0 100px rgba(0, 0, 0, 0.5); }
+/* line 96, ../scss/portfolio-block.scss */
+.modal table { margin-bottom: 12px; }
+/* line 99, ../scss/portfolio-block.scss */
+.modal table td { padding-right: 6px; vertical-align: top; }
+/* line 104, ../scss/portfolio-block.scss */
+.modal table label { white-space: nowrap; }
+/* line 108, ../scss/portfolio-block.scss */
+.modal table input { margin-top: 6px; }
+/* line 112, ../scss/portfolio-block.scss */
+.modal table input[type=number] { width: 4em; }
+/* line 116, ../scss/portfolio-block.scss */
+.modal table input[type=text] { width: 10em; }
+
+/* line 125, ../scss/portfolio-block.scss */
+:host(.quote) #display { font-family: Georgia, serif; font-style: italic; }
+
+/* line 130, ../scss/portfolio-block.scss */
+:host(.text-big) #display { text-align: center; font-weight: bold; font-size: 180%; }
+
+/* line 136, ../scss/portfolio-block.scss */
+:host(.text-center) #display { text-align: center; }
+
+/* line 141, ../scss/portfolio-block.scss */
+:host(.quote) #display:before, :host(.quote) #display:after { pointer-events: none; position: absolute; line-height: 1; font-size: 100px; font-weight: bold; color: rgba(0, 0, 0, 0.05); }
+/* line 151, ../scss/portfolio-block.scss */
+:host(.quote) #display:before { content: "“"; top: 15px; left: 0; }
+/* line 157, ../scss/portfolio-block.scss */
+:host(.quote) #display:after { content: "”"; bottom: -40px; right: 10px; }
+
+/* line 165, ../scss/portfolio-block.scss */
+:host(.csv) #display li { display: inline-block; }
+/* line 169, ../scss/portfolio-block.scss */
+:host(.csv) #display li + li:before { content: ", "; }
+
+/* line 175, ../scss/portfolio-block.scss */
+:host(.tags) #display li { display: inline-block; background: #333; color: white; padding: 3px 6px; margin: 3px; }

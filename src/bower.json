@@ -1,0 +1,22 @@
+{
+  "name": "toptal-code-test",
+  "version": "0.1",
+  "authors": [
+    "Benjamin Knight <ben@benknight.me>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "core-ajax": "Polymer/core-ajax#~0.5.2",
+    "core-localstorage": "Polymer/core-localstorage#~0.5.2",
+    "core-selector": "Polymer/core-selector#~0.5.2",
+    "polymer": "Polymer/polymer#~0.5.2"
+  }
+}

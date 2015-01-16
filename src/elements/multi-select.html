@@ -1,0 +1,137 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/core-selector/core-selector.html">
+<link rel="import" href="globals.html">
+
+<polymer-element name="multi-select" attributes="value globalValues">
+	<template>
+		<link rel="stylesheet" href="../css/multi-select.css">
+		<ul id="selected">
+			<template repeat="{{$.selector.selected}}">
+				<li>
+					{{}}
+					<button on-click="{{toggleItemAction}}" title="{{}}">remove</button>
+				</li>
+			</template>
+		</ul>
+		<div id="add-item">
+			<input type="text" id="input" on-keyup="{{keyUpAction}}" on-keydown="{{keyDownAction}}" on-focus="{{focusAction}}" on-blur="{{blurAction}}" autocomplete="off" placeholder="New item">
+			<ul hidden id="choices" on-mouseover="{{mouseOverAction}}" on-mouseout="{{mouseOutAction}}">
+				<div hidden?="{{filteredItems.length > 0}}">
+					No matches found.
+				</div>
+				<template repeat="{{filteredItems}}">
+					<li title="{{}}">{{}}</li>
+				</template>
+			</ul>
+		</div>
+		<core-selector multi id="selector" target="{{$.choices}}" valueattr="title" on-core-select="{{selectAction}}" selected="{{value}}" excludedLocalNames="div"></core-selector>
+	</template>
+	<script>
+		(function () {
+			Polymer('multi-select', {
+				filteredItems: null,
+				cursor: 0,
+				ready: function () {
+					this.items = this.globalValues ? window[this.globalValues] : [];
+					this.filteredItems = this.items;
+				},
+				filterItems: function () {
+					var inputValue = this.$.input.value;
+					this.filteredItems = this.items.filter(function (item) {
+						if (! inputValue) {
+							return item;
+						} else {
+							return item.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1;
+						}
+					});
+					this.async(function () {
+						this.setCursor(0);
+					});
+				},
+				setCursor: function (index) {
+					var choiceNodes, currentNode, nextNode;
+					index = Math.min(Math.max(0, index), this.filteredItems.length - 1);
+					choiceNodes = this.$.choices.querySelectorAll('li');
+					if (currentNode = this.$.choices.querySelector('.cursor')) {
+						currentNode.classList.remove('cursor');
+					}
+					if (nextNode = choiceNodes.item(index)) {
+						nextNode.classList.add('cursor');
+					}
+					this.cursor = index;
+				},
+				keyUpAction: function (event) {
+					var stroke = (_ref = event.which) != null ? _ref : event.keyCode;
+					switch (stroke) {
+						case 37: // left
+						case 38: // up
+						case 39: // right
+						case 40: // down
+							break;
+						default:
+							this.filterItems();
+					}
+				},
+				keyDownAction: function (event) {
+					var stroke = (_ref = event.which) != null ? _ref : event.keyCode;
+					switch (stroke) {
+						case 38: // up
+							this.setCursor(this.cursor - 1);
+							break;
+						case 40: // down
+							this.setCursor(this.cursor + 1);
+							break;
+						case 37: // left
+						case 39: // right
+							break;
+						case 8: // backspace
+							if (! this.$.input.value) {
+								this.$.selector.selected.pop();
+							}
+							break;
+						case 27: // escape
+							this.$.input.blur();
+							this.$.choices.hidden = true;
+							break;
+						case 13: // enter
+							this.$.selector.addRemoveSelected(this.filteredItems[this.cursor]);
+							this.$.input.value = '';
+							break;
+					}
+				},
+				toggleItemAction: function (event, details, sender) {
+					this.$.selector.addRemoveSelected(sender.title);
+				},
+				selectAction: function (event, details) {
+					if (details.isSelected) {
+						this.$.input.focus();
+					}
+					// XXX(2015-01-16):
+					// For some reason this is necessary for the data bindings to update.
+					// I have no idea why. Probably a bug in the source.
+					// `slice(0)` clones the array.
+					this.value = this.value.slice(0);
+				},
+				focusAction: function () {
+					this.$.choices.hidden = false;
+					this.setCursor(0);
+				},
+				blurAction: function () {
+					if (! this.$.choices.hovered) {
+						this.$.choices.hidden = true;
+					}
+				},
+				mouseOverAction: function (event) {
+					this.$.choices.hovered = true;
+					if (event.target.tagName == 'LI') {
+						var choiceNodes = Array.prototype.slice.call(this.$.choices.querySelectorAll('li'));
+						this.setCursor(choiceNodes.indexOf(event.target));
+					}
+				},
+				mouseOutAction: function () {
+					this.$.choices.hovered = false;
+				}
+			});
+		})();
+	</script>
+</polymer-element>

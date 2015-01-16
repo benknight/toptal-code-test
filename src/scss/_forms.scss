@@ -1,0 +1,33 @@
+@import 'variables';
+
+
+label {
+	font-weight: bold;
+}
+
+input,
+textarea,
+select {
+	font-size: inherit;
+	color: $normal-text;
+
+	:host(.cell) & {
+		width: 100%;
+	}
+}
+
+button {
+	color: $normal-text;
+	font-size: 13px; // max size w/o canceling webkit button appearance
+}
+
+textarea {
+	width: 100%;
+	height: 4.2em;
+}
+
+fieldset {
+	margin: 0 0 12px 0;
+	padding: 0;
+	border: 0;
+}

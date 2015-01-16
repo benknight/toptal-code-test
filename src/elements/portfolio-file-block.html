@@ -1,0 +1,90 @@
+<link rel="import" href="portfolio-block-base.html">
+
+<polymer-element
+		name="portfolio-file-block"
+		extends="portfolio-block-base"
+		attributes="caption type">
+	<template>
+		<link rel="stylesheet" href="../css/portfolio-block.css">
+		<style>
+			:host {
+				overflow: hidden;
+			}
+
+			:host(.editing) img {
+				-webkit-filter: blur(5px);
+				filter: blur(5px);
+			}
+
+			img {
+				box-shadow: 0 0 0 9999px black;
+			}
+
+			#edit {
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				padding: 15px;
+				font-size: 11px;
+				background: rgba(0, 0, 0, 0.5);
+			}
+
+			#edit input[type=file] {
+				width: 100%;
+				padding: 6px;
+				border-radius: 6px;
+				background: black;
+				color: white;
+			}
+
+			.placeholder {
+				padding-top: 33%;
+			}
+		</style>
+		<content select="h3"></content>
+		<div class="placeholder" hidden?="{{data.blob || editing}}">
+			{{placeholder}}
+		</div>
+		<template if="{{type == 'image' && data.blob}}">
+			<img src="{{data.blob}}">
+		</template>
+		<p class="caption" hidden?="{{! data.caption || editing}}">{{data.caption}}</p>
+		<div hidden?="{{! editing}}" id="edit">
+			<fieldset>
+				<input type="file" id="file" on-change="{{changeAction}}">
+			</fieldset>
+			<fieldset hidden?="{{! caption}}">
+				<textarea placeholder="Caption" value="{{data.caption}}"></textarea>
+			</fieldset>
+			<fieldset>
+				<button on-click="{{commitAction}}">Save</button>
+			</fieldset>
+		</div>
+	</template>
+	<script>
+		Polymer('portfolio-file-block', {
+			caption: true,
+			type: '',
+			placeholder: 'Add content',
+			ready: function () {
+				this.data = this.data || {'blob': '', 'caption': ''};
+				if (this.type == 'image') {
+					this.placeholder = 'Add image content';
+				}
+			},
+			changeAction: function (event, details, sender) {
+				var file = event.target.files[0];
+				if (this.type == 'image' && ! file.type.match('image.*')) {
+					return window.alert('Upload failed: file must be an image.');
+				}
+				var reader = new window.FileReader();
+				reader.onload = function (event) {
+					this.data.blob = event.target.result;
+				}.bind(this);
+				reader.readAsDataURL(file);
+			}
+		});
+	</script>
+</polymer-element>

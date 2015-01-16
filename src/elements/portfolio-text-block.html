@@ -1,0 +1,53 @@
+<link rel="import" href="portfolio-block-base.html">
+
+<polymer-element
+		name="portfolio-text-block"
+		extends="portfolio-block-base"
+		on-keypress="{{keypressAction}}"
+		attributes="inputId">
+	<template>
+		<link rel="stylesheet" href="../css/portfolio-block.css">
+		<content select="h3"></content>
+		<div hidden?="{{editing}}">
+			<div class="placeholder" hidden?="{{data}}">
+				{{placeholder}}
+			</div>
+			<div hidden?="{{! data}}" id="display">
+				{{data}}
+			</div>
+		</div>
+		<div hidden?="{{! editing}}">
+			<content></content>
+			<button id="button" on-click="{{commitAction}}">Save</button>
+		</div>
+	</template>
+	<script>
+		// For storing portfolio data that can be respresented as a single form field.
+		var ENTER_KEY = 13;
+		Polymer('portfolio-text-block', {
+			ready: function () {
+				this.field = this.querySelector('#' + this.inputId);
+				this.async(function () {
+					this.field.value = this.data || '';
+				});
+			},
+			toggleAction: function () {
+				this.super();
+				if (this.editing) {
+					this.async(function () {
+						this.field.focus();
+					});
+				}
+			},
+			commitAction: function () {
+				this.data = this.field.value;
+				this.super();
+			},
+			keypressAction: function(e, detail, sender) {
+				if (e.keyCode === ENTER_KEY) {
+					this.commitAction();
+				}
+			}
+		});
+	</script>
+</polymer-element>

@@ -1,0 +1,11 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<polymer-element name="portfolio-map-block" attributes="zip locationString name" noscript>
+	<template>
+		<link rel="stylesheet" href="../css/portfolio-block.css">
+		<div>
+			<img hidden?="{{! locationData.zip}}" src="https://maps.googleapis.com/maps/api/staticmap?center={{locationData.zip}}&amp;zoom=10&amp;size=300x300" width="300" height="300">
+			<p hidden?="{{! (name && locationData.zip)}}" class="caption">{{name}} lives in {{locationData.locationString}}.</p>
+		</div>
+	</template>
+</polymer-elemnt>

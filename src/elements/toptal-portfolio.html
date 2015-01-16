@@ -1,0 +1,54 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/core-localstorage/core-localstorage.html">
+
+<polymer-element name="toptal-portfolio"
+		on-block-changed="{{blockChangedAction}}"
+		on-location-changed="{{locationChangedAction}}">
+	<template>
+		<core-localstorage id="storage" name="portfolio"></core-localstorage>
+		<content></content>
+	</template>
+	<script>
+		// This custom element serves as a container for all the portfolio blocks
+		// and persists their data to Local Storage. All blocks must have an ID.
+		Polymer('toptal-portfolio', {
+			ready: function () {
+				this.mapBlock = this.querySelector('portfolio-map-block');
+				this.asyncMethod(function () {
+					this.populateData();
+				});
+			},
+			populateData: function () {
+				this.blocks = this.$.storage.value || {};
+				for (var blockId in this.blocks) {
+					var blockData = this.blocks[blockId];
+					this.querySelector('#' + blockId).data = blockData;
+					if (blockId == 'name') {
+						this.setName(blockData);
+					}
+					if (blockId == 'location') {
+						this.setLocation(blockData);
+					}
+				}
+			},
+			blockChangedAction: function (e) {
+				if (! e.target.id) {
+					throw new Error('No id specified for block.');
+				}
+				this.blocks[e.target.id] = e.target.data;
+				this.$.storage.value = this.blocks;
+				this.$.storage.save();
+				this.populateData();
+			},
+			locationChangedAction: function (event, details) {
+				this.setLocation(details);
+			},
+			setName: function (newName) {
+				this.mapBlock.name = newName;
+			},
+			setLocation: function (locationData) {
+				this.mapBlock.locationData = locationData;
+			}
+		});
+	</script>
+</polymer-element>

@@ -1,0 +1,61 @@
+<link rel="import" href="../bower_components/core-ajax/core-ajax.html">
+<link rel="import" href="portfolio-text-block.html">
+
+
+<polymer-element name="portfolio-location-block" extends="portfolio-text-block">
+	<template>
+		<link rel="stylesheet" href="../css/portfolio-block.css">
+		<h1 hidden?="{{! blockTitle}}">{{blockTitle}}</h1>
+		<div hidden?="{{editing}}">
+			{{data.locationString || placeholder}}
+		</div>
+		<div hidden?="{{! editing}}">
+			<content></content>
+			<button id="button" on-click="{{commitAction}}">Save</button>
+		</div>
+		<core-ajax auto id="ajax" handleAs="json" on-core-response="{{responseAction}}"></core-ajax>
+	</template>
+	<script>
+		String.prototype.capitalize = function () {
+			return this.toLowerCase().replace(/^.|\s\S/g, function(a) { return a.toUpperCase(); });
+		},
+		Polymer('portfolio-location-block', {
+			defaultData: {'zip': '', 'locationString': ''},
+			defaultPlaceholder: '',
+			ready: function () {
+				this.field = this.querySelector('#' + this.inputId);
+				this.data = this.data || this.defaultData;
+				this.async(function () {
+					this.field.value = this.data.zip;
+				});
+				this.defaultPlaceholder = this.placeholder;
+			},
+			commitAction: function () {
+				if (! this.field.value) {
+					this.data = this.defaultData;
+					this.save();
+				}
+				if (this.field.value !== this.data.zip) {
+					this.placeholder = 'Loading...';
+					this._locationString = this.data.locationString;
+					this.data.locationString = '';
+					this.$.ajax.url = 'http://ziptasticapi.com/' + this.field.value;
+				}
+				this.toggleAction();
+			},
+			responseAction: function (event, details) {
+				var r = details.response;
+				if (r.error) {
+					this.data.locationString = this._locationString;
+					alert(r.error);
+				} else {
+					this.data.zip = this.field.value;
+					this.data.locationString = r.city.capitalize() + ', ' + r.state + ', ' + r.country;
+					this.fire('location-changed', this.data);
+				}
+				this.placeholder = this.defaultPlaceholder;
+				this.save();
+			}
+		});
+	</script>
+</polymer-elemnt>

@@ -1,0 +1,94 @@
+<link rel="import" href="portfolio-block-base.html">
+<link rel="import" href="multi-select.html">
+
+<polymer-element
+		name="portfolio-keyvalue-block"
+		attributes="name data type"
+		extends="portfolio-block-base">
+	<template>
+		<link rel="stylesheet" href="../css/portfolio-block.css">
+		<h1>{{blockTitle}}</h1>
+		<div id="display">
+			<content></content>
+			<template if="{{! filtered.length}}">
+				<div class="placeholder">{{placeholder}}</div>
+			</template>
+			<ul>
+				<template repeat="{{item in filtered}}">
+					<li>
+						<template if="{{type == 'history'}}">
+							<b>{{item.key}},</b> {{item.value | csv}}
+						</template>
+						<template if="{{type == 'experience'}}">
+							<b>{{item.key | csv}},</b> {{item.value}} years
+						</template>
+						<template if="{{type == 'default'}}">
+							<b>{{item.key}},</b> {{item.value}}
+						</template>
+					</li>
+				</template>
+			</ul>
+		</div>
+		<div hidden?="{{! editing}}" class="modal">
+			<table>
+				<template bind repeat="{{item in data}}">
+					<tr>
+						<template if="{{type == 'history'}}">
+							<td><input type="text" value="{{item.key}}" placeholder="Company"></td>
+							<td><multi-select globalValues="codeLangs" value="{{item.value}}"></multi-select></td>
+						</template>
+						<template if="{{type == 'experience'}}">
+							<td><label>Years: <input type="number" value="{{item.value}}"></label></td>
+							<td><multi-select globalValues="codeLangs" value="{{item.key}}"></multi-select></td>
+						</template>
+						<template if="{{type == 'default'}}">
+							<td><input type="text" value="{{item.key}}"></td>
+							<td><input type="text" value="{{item.value}}"></td>
+						</template>
+					</tr>
+				</template>
+			</table>
+			<button on-click="{{commitAction}}">Save</button>
+		</div>
+	</template>
+	<script>
+		Polymer('portfolio-keyvalue-block', {
+			data: null,
+			filtered: [],
+			type: '',
+			ready: function () {
+				this.type = this.type || 'default';
+				this.async(function () {
+					this.data = this.data || this.getDefaultItems(5);
+					this.filterItems();
+				});
+			},
+			getDefaultItems: function (numItems) {
+				var defaultItems = [];
+				for (var i = 0; i < numItems; i++) {
+					if (this.type == 'history') {
+						defaultItems.push({key: '', value: []});
+					} else if (this.type == 'experience') {
+						defaultItems.push({key: [], value: 0});
+					} else {
+						defaultItems.push({key: '', value: ''});
+					}
+				}
+				return defaultItems;
+			},
+			filterItems: function () {
+
+				this.filtered = this.data.filter(function (item) {
+					return !!(item.key.length && item.value.length);
+				});
+			},
+			commitAction: function () {
+				this.super();
+				this.filterItems();
+			},
+			csv: function (values) {
+				return values.join(', ');
+			}
+		});
+	</script>
+</polymer-element>

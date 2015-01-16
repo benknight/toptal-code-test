@@ -1,0 +1,30 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<polymer-element
+		name="portfolio-block-base"
+		attributes="data placeholder"
+		on-dblclick="{{dblClickAction}}">
+	<script>
+		Polymer({
+			editing: false,
+			placeholder: 'Add content…',
+			toggleAction: function () {
+				this.editing = ! this.editing;
+				this.classList.toggle('editing');
+			},
+			commitAction: function () {
+				this.toggleAction();
+				this.save();
+			},
+			dblClickAction: function () {
+				if (! this.editing) {
+					this.toggleAction();
+				}
+			},
+			save: function () {
+				this.fire('block-changed');
+			}
+		});
+	</script>
+</polymer-element>
+

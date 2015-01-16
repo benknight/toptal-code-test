@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Toptal Developer Portfolio</title>
+		<script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+		<link rel="import" href="elements/toptal-portfolio.html">
+		<link rel="import" href="elements/portfolio-text-block.html">
+		<link rel="import" href="elements/portfolio-file-block.html">
+		<link rel="import" href="elements/portfolio-location-block.html">
+		<link rel="import" href="elements/portfolio-map-block.html">
+		<link rel="import" href="elements/portfolio-list-block.html">
+		<link rel="import" href="elements/portfolio-keyvalue-block.html">
+		<link rel="import" href="elements/multi-select.html">
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+	<body unresolved>
+		<toptal-portfolio>
+
+			<!-- Header -->
+			<section class="header">
+				<portfolio-file-block class="cell cell-1of4" id="photo" type="image" caption="false" placeholder="Add profile image"></portfolio-file-block>
+				<div class="cell">
+					<div class="cell-inner">
+						<portfolio-text-block id="name" placeholder="Add name" inputId="name-input" class="inline">
+							<input type="text" id="name-input">
+						</portfolio-text-block>
+						<br>
+						<portfolio-location-block id="location" placeholder="Add location" inputId="location-input" class="inline">
+							<input type="text" id="location-input" placeholder="Zip Code">
+						</portfolio-location-block>
+						<br>
+						<portfolio-list-block id="languages" placeholder="Add languages" inputId="languages-input" class="inline csv">
+							<multi-select globalValues="naturalLangs" id="languages-input"></multi-select>
+						</portfolio-list-block>
+						<br>
+						<portfolio-list-block id="skills" placeholder="Add skill" inputId="skills-input" class="inline tags">
+							<multi-select globalValues="codeLangs" id="skills-input"></multi-select>
+						</portfolio-list-block>
+					</div>
+				</div>
+			</section>
+
+			<section>
+				<portfolio-keyvalue-block id="resume" class="cell" type="history">
+					<h3>Portfolio</h3>
+				</portfolio-keyvalue-block>
+				<portfolio-keyvalue-block id="experience" class="cell" type="experience">
+					<h3>Experience</h3>
+				</portfolio-keyvalue-block>
+				<portfolio-file-block class="cell cell-1of4" id="code" caption="false">
+					<h3>Sample Code</h3>
+					<img src="img/sample-code.png">
+				</portfolio-file-block>
+				<div class="cell">
+					<portfolio-text-block id="availability" inputId="availability-input" class="text-big cell-inner">
+						<h3>Availability</h3>
+						<select id="availability-input">
+							<option>Full Time</option>
+							<option>Part Time</option>
+							<option>Contract Only</option>
+						</select>
+					</portfolio-text-block>
+					<portfolio-text-block id="environment" inputId="environment-input" class="cell-inner text-center">
+						<h3>Preferred Environment</h3>
+						<textarea id="environment-input"></textarea>
+					</portfolio-text-block>
+				</div>
+			</section>
+
+			<section>
+				<portfolio-text-block id="amazing" class="quote cell cell-1of4" inputId="amazing-input">
+					<h3>The most amazing…</h3>
+					<textarea id="amazing-input"></textarea>
+				</portfolio-text-block>
+				<portfolio-text-block id="clients" class="quote cell cell-1of4" inputId="clients-input">
+					<h3>In clients I look for…</h3>
+					<textarea id="clients-input"></textarea>
+				</portfolio-text-block>
+				<portfolio-map-block class="cell cell-1of4"></portfolio-map-block>
+				<portfolio-text-block id="note" class="cell quote cell-1of4" inputId="note-input">
+					<h3>Note</h3>
+					<textarea id="note-input"></textarea>
+				</portfolio-text-block>
+			</section>
+
+			<h2>Let me introduce myself…</h2>
+
+			<section>
+				<portfolio-file-block id="interest1" class="cell" type="image"></portfolio-file-block>
+				<portfolio-file-block id="interest2" class="cell" type="image"></portfolio-file-block>
+				<portfolio-text-block id="amazing2" class="cell quote" inputId="amazing2-input">
+					<h3>The most amazing…</h3>
+					<textarea id="amazing2-input"></textarea>
+				</portfolio-text-block>
+				<portfolio-file-block id="interest3" class="cell" type="image"></portfolio-file-block>
+			</section>
+		</toptal-portfolio>
+	</body>
+</html>

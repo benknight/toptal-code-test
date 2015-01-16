@@ -1,0 +1,125 @@
+@import '_lib/normalize';
+@import 'forms';
+@import 'variables';
+
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 20px;
+	font: 14px/1.4 Helvetica Neue, Arial, sans-serif;
+	color: $normal-text;
+}
+
+toptal-portfolio {
+	display: block;
+	max-width: 900px;
+	margin: 0 auto;
+}
+
+h2 {
+	text-align: center;
+}
+
+section {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0;
+	padding: 0;
+	background: #eee;
+	border: solid #eee;
+	border-width: 1px 1px 1px 0;
+
+	& + section {
+		border-top: 0;
+	}
+}
+
+.cell {
+	box-sizing: border-box;
+	min-height: 150px;
+	flex: 1;
+	padding: 15px;
+	background: white;
+	border-left: 1px solid #eee;
+
+	h3 {
+		margin: 0 0 12px 0;
+		font-size: 14px;
+		text-align: center;
+	}
+}
+
+.cell-1of4 {
+	flex: none;
+	width: 25%;
+}
+
+.cell-inner {
+	position: relative;
+	padding: 15px;
+	margin: -15px;
+
+	& + .cell-inner {
+		margin-top: 15px;
+		border-top: 1px solid #eee;
+	}
+}
+
+.header {
+	.cell {
+		background: #eee;
+	}
+
+	portfolio-file-block.cell {
+		background: #ddd;
+	}
+}
+
+.cell.editing,
+.cell-inner.editing {
+	border-color: hsl(0, 0%, 30%);
+	background: hsl(0, 0%, 30%);
+	color: white;
+}
+
+// --- Block specific styles ---
+
+portfolio-map-block,
+portfolio-file-block {
+	h3 {
+		position: absolute;
+		top: 0;
+		right: 0;
+		left: 0;
+		padding: 15px;
+		background: hsla(0, 0%, 97%, 0.85);
+	}
+
+	&.editing h3 {
+		display: none;
+	}
+
+	&.cell {
+		padding: 0;
+	}
+}
+
+portfolio-file-block:not([type=image]) {
+	background: url(../img/sample-code.png);
+	background-size: cover;
+}
+
+#name {
+	line-height: 1;
+	margin-bottom: 6px;
+	font-size: 225%;
+}
+
+#skills {
+	margin-top: 12px;
+}

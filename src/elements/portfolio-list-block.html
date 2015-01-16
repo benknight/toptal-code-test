@@ -1,0 +1,37 @@
+<link rel="import" href="portfolio-block-base.html">
+
+<polymer-element
+		name="portfolio-list-block"
+		extends="portfolio-block-base">
+	<template>
+		<link rel="stylesheet" href="../css/portfolio-block.css">
+		<h1 hidden?="{{! blockTitle}}">{{blockTitle}}</h1>
+		<div id="display" hidden?="{{editing}}">
+			<span hidden?="{{data.length}}">{{placeholder}}</span>
+			<ul>
+				<template repeat="{{data}}"><li>{{}}</li></template>
+			</ul>
+		</div>
+		<div hidden?="{{! editing}}">
+			<content></content>
+			<div><button on-click="{{commitAction}}">Save</button></div>
+		</div>
+	</template>
+	<script>
+		Polymer('portfolio-list-block', {
+			ready: function () {
+				this.field = this.children[0];
+				this.async(function () {
+					this.field.value = this.data || [];
+				});
+			},
+			updateValue: function (event) {
+				this.data = this.field.value;
+			},
+			commitAction: function () {
+				this.updateValue();
+				this.super();
+			}
+		});
+	</script>
+</polymer-element>
